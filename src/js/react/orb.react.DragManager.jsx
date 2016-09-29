@@ -195,6 +195,16 @@ var dragManager = module.exports.DragManager = (function() {
 						setCurrDropIndicator(foundIndicator);
 					});
 				}
+				/* Added By Fortunes Technology - Begin
+				 So What we're doing here, when there are no targets, we remove the targets.
+				 Currently when there are no target, it use last one as target, damaging user experience.
+				* */
+				else
+				{
+					setCurrDropTarget(null);
+					setCurrDropIndicator(null);
+				}
+				/* Added By Fortunes Technology - End */
 			}
 		}
 	};
