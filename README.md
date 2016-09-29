@@ -90,6 +90,9 @@ q.val({
    }
 ```
 
+Fields can have an option dataRowColumn. dataRowColumn is optional and default value is "data row column". You can set it as either "data" "row" "column" or its combination separated by space.
+This will specify field is for data , row or column
+
 
 ## Licence
 [MIT](https://github.com/nnajm/orb/blob/master/LICENSE)

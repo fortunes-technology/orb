@@ -138,6 +138,16 @@ var Field = module.exports.field = function(options, createSubOptions) {
     // shared settings
     this.caption = options.caption || this.name;
 
+    /* Added By Fortunes Technology - Begin
+     This is for required, when someone want to restrict rows, and column and value fields. Right now, we can move any fields into value, and column and rows.
+     Value fields wouldn't make much sense when they are move into column or row.
+
+     By default, all fields are eligible for data row column
+     * */
+
+    this.dataRowColumn = options.dataRowColumn || "data row column";
+    /* Added By Fortunes Technology - End * */
+
     // rows & columns settings
     this.sort = new SortConfig(options.sort);
     this.subTotal = new SubTotalConfig(options.subTotal);
@@ -214,6 +224,16 @@ module.exports.config = function(config) {
     // datasource field captions
     this.dataSourceFieldCaptions = [];
 
+    /* Added By Fortunes Technology - Begin
+     This is for required, when someone want to restrict rows, and column and value fields. Right now, we can move any fields into value, and column and rows.
+     Value fields wouldn't make much sense when they are move into column or row.
+     * */
+    this.fieldsForData = [];
+    this.fieldsForRow = [];
+    this.fieldsForColumn = [];
+
+    /* Added By Fortunes Technology - End     * */
+
     this.captionToName = function(caption) {
         var fcaptionIndex = self.dataSourceFieldCaptions.indexOf(caption);        
         return fcaptionIndex >= 0 ? self.dataSourceFieldNames[fcaptionIndex] : caption;
@@ -230,6 +250,26 @@ module.exports.config = function(config) {
 
     this.allFields = (config.fields || []).map(function(fieldconfig) {
         var f = new Field(fieldconfig);
+
+        /* Added By Fortunes Technology - Begin
+         This is for required, when someone want to restrict rows, and column and value fields. Right now, we can move any fields into value, and column and rows.
+         Value fields wouldn't make much sense when they are move into column or row.
+         * */
+
+        if(f.dataRowColumn.includes("data"))
+        {
+            self.fieldsForData.push(f.name);
+        }
+        if(f.dataRowColumn.includes("row"))
+        {
+            self.fieldsForRow.push(f.name);
+        }
+        if(f.dataRowColumn.includes("column"))
+        {
+            self.fieldsForColumn.push(f.name);
+        }
+        /* Added By Fortunes Technology - End     * */
+
         // map fields names to captions
         self.dataSourceFieldNames.push(f.name);
         self.dataSourceFieldCaptions.push(f.caption);

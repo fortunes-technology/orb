@@ -164,6 +164,50 @@ var dragManager = module.exports.DragManager = (function() {
 				}, true);
 
 				if(foundTarget) {
+					/* Added By Fortunes Technology - Begin
+					 This is for required, when someone want to restrict rows, and column and value fields. Right now, we can move any fields into value, and column and rows.
+					 Value fields wouldn't make much sense when they are move into column or row.
+					 * */
+
+					console.log("Found Target");
+					var currentName = _currDragElement.props.field.name;
+
+					var pgConfig = _currDragElement.props.pivotTableComp.pgrid.config;
+
+					if(foundTarget.axetype)
+					{// That means target is not fields
+						if(foundTarget.axetype == 3)
+						{// This means data
+							if(!(pgConfig.fieldsForData.includes(currentName)))
+							{
+								setCurrDropTarget(null);
+								setCurrDropIndicator(null);
+								return;
+							}
+						}
+						else if(foundTarget.axetype == 1)
+						{//This means column
+							if(!(pgConfig.fieldsForColumn.includes(currentName)))
+							{
+								setCurrDropTarget(null);
+								setCurrDropIndicator(null);
+								return;
+							}
+						}
+						else if(foundTarget.axetype == 2)
+						{//This means row
+							if(!(pgConfig.fieldsForRow.includes(currentName)))
+							{
+								setCurrDropTarget(null);
+								setCurrDropIndicator(null);
+								return;
+							}
+						}
+					}
+					//We need to do something here. Here we got the Target. Here we need to compare whether it's the right target
+					/* Added By Fortunes Technology - End */
+
+
 					setCurrDropTarget(foundTarget, function() {
 						var foundIndicator = null;
 
